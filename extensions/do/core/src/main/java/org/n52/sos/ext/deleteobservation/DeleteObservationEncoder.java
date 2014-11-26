@@ -34,6 +34,7 @@ import net.opengis.sosdo.x10.DeleteObservationResponseDocument;
 import net.opengis.sosdo.x10.DeleteObservationResponseType;
 
 import org.apache.xmlbeans.XmlObject;
+import org.joda.time.DateTime;
 import org.n52.sos.encode.AbstractResponseEncoder;
 import org.n52.sos.exception.ows.MissingParameterValueException;
 import org.n52.sos.exception.ows.concrete.MissingServiceParameterException;
@@ -79,16 +80,29 @@ public class DeleteObservationEncoder extends AbstractResponseEncoder<DeleteObse
         if (dor.getVersion() == null) {
             exceptions.add(new MissingVersionParameterException());
         }
-        if (dor.getObservationId() == null || dor.getObservationId().isEmpty()) {
-            exceptions.add(new MissingParameterValueException(DeleteObservationConstants.PARAMETER_NAME));
+        if (dor.getProcedureIdentifier() == null || dor.getProcedureIdentifier().isEmpty()) {
+            exceptions.add(new MissingParameterValueException(DeleteObservationConstants.PROCEDURE_PARAM));
         }
+        if (dor.getObservableProperty() == null || dor.getObservableProperty().isEmpty()) {
+            exceptions.add(new MissingParameterValueException(DeleteObservationConstants.OBSERVABLE_PARAM));
+        }
+        if (dor.getResultTime() == null) {
+            exceptions.add(new MissingParameterValueException(DeleteObservationConstants.RESULT_TIME_PARAM));
+        }
+
         exceptions.throwIfNotEmpty();
 
-        String observationId = dor.getObservationId();
+        String procedureIdentifier = dor.getProcedureIdentifier();
+        String observableProperty = dor.getObservableProperty();
+        DateTime resultTime = dor.getResultTime();
+
         DeleteObservationResponseDocument xbDeleteObsDoc =
                 DeleteObservationResponseDocument.Factory.newInstance(getXmlOptions());
         DeleteObservationResponseType xbDeleteObservationResponse = xbDeleteObsDoc.addNewDeleteObservationResponse();
-        xbDeleteObservationResponse.setDeletedObservation(observationId);
+        xbDeleteObservationResponse.setProcedureIdentifier(procedureIdentifier);
+        xbDeleteObservationResponse.setObservableProperty(observableProperty);
+        xbDeleteObservationResponse.setResultTime(resultTime.toCalendar(null));
+
         return xbDeleteObsDoc;
     }
 

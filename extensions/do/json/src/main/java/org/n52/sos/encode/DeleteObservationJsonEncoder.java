@@ -65,11 +65,21 @@ public class DeleteObservationJsonEncoder extends AbstractSosResponseEncoder<Del
         if (t.getVersion() == null) {
             exceptions.add(new MissingVersionParameterException());
         }
-        if (t.getObservationId() == null || t.getObservationId().isEmpty()) {
-            exceptions.add(new MissingParameterValueException(DeleteObservationConstants.PARAMETER_NAME));
+        if (t.getProcedureIdentifier() == null || t.getProcedureIdentifier().isEmpty()) {
+            exceptions.add(new MissingParameterValueException(DeleteObservationConstants.PROCEDURE_PARAM));
         }
+        if (t.getObservableProperty() == null || t.getObservableProperty().isEmpty()) {
+            exceptions.add(new MissingParameterValueException(DeleteObservationConstants.OBSERVABLE_PARAM));
+        }
+        if (t.getResultTime() == null) {
+            exceptions.add(new MissingParameterValueException(DeleteObservationConstants.RESULT_TIME_PARAM));
+        }
+
         exceptions.throwIfNotEmpty();
-        json.put(JSONConstants.DELETED_OBSERVATION, t.getObservationId());
+
+        json.put(JSONConstants.PROCEDURE_IDENTIFIER, t.getProcedureIdentifier());
+        json.put(JSONConstants.OBSERVABLE_PROPERTY, t.getObservableProperty());
+        json.put(JSONConstants.RESULT_TIME, t.getResultTime().toString());
     }
 
 }

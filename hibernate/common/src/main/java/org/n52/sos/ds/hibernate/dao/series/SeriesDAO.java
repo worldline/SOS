@@ -420,20 +420,31 @@ public class SeriesDAO {
 	 */
 	public void updateSeriesAfterObservationDeletion(Series series, SeriesObservation observation, Session session) {
 		SeriesObservationDAO seriesObservationDAO = new SeriesObservationDAO();
-		if (series.getFirstTimeStamp().equals(observation.getPhenomenonTimeStart())) {
+		boolean isTheLastObservation = true;
+        if (series.getFirstTimeStamp().equals(observation.getPhenomenonTimeStart())) {
 			SeriesObservation firstObservation = seriesObservationDAO.getFirstObservationFor(series, session);
-			series.setFirstTimeStamp(firstObservation.getPhenomenonTimeStart());
-			if (firstObservation instanceof NumericObservation) {
-				series.setFirstNumericValue(((NumericObservation) firstObservation).getValue());
-			}
+            if(firstObservation != null) {
+                series.setFirstTimeStamp(firstObservation.getPhenomenonTimeStart());
+                if (firstObservation instanceof NumericObservation) {
+                    series.setFirstNumericValue(((NumericObservation) firstObservation).getValue());
+                }
+                isTheLastObservation = false;
+            }
 		} else if (series.getLastTimeStamp().equals(observation.getPhenomenonTimeEnd())) {
 			SeriesObservation latestObservation = seriesObservationDAO.getLastObservationFor(series, session);
-			series.setLastTimeStamp(latestObservation.getPhenomenonTimeEnd());
-			if (latestObservation instanceof NumericObservation) {
-				series.setLastNumericValue(((NumericObservation) latestObservation).getValue());
-			}
+            if(latestObservation != null) {
+                series.setLastTimeStamp(latestObservation.getPhenomenonTimeEnd());
+                if (latestObservation instanceof NumericObservation) {
+                    series.setLastNumericValue(((NumericObservation) latestObservation).getValue());
+                }
+                isTheLastObservation = false;
+            }
 		}
-		session.saveOrUpdate(series);
+
+        if(isTheLastObservation)
+            session.delete(series);
+		else
+            session.saveOrUpdate(series);
 	}
 
 }

@@ -45,6 +45,7 @@ import net.opengis.sosdo.x10.DeleteObservationDocument;
 import net.opengis.sosdo.x10.DeleteObservationType;
 
 import org.apache.xmlbeans.XmlObject;
+import org.joda.time.DateTime;
 import org.n52.sos.decode.Decoder;
 import org.n52.sos.decode.DecoderKey;
 import org.n52.sos.exception.ows.NoApplicableCodeException;
@@ -99,12 +100,16 @@ public class DeleteObservationDecoder implements Decoder<DeleteObservationReques
         DeleteObservationRequest delObsRequest = null;
 
         DeleteObservationType xbDelObsType = xbDelObsDoc.getDeleteObservation();
-
         if (xbDelObsType != null) {
+            LOGGER.debug("parseDeleteObservation : procedureIdentifier [" + xbDelObsType.getProcedureIdentifier() + "] observableProperty ["+ xbDelObsType.getObservableProperty() +"] resultTime [" + xbDelObsType.getResultTime() + "]");
             delObsRequest = new DeleteObservationRequest();
             delObsRequest.setVersion(xbDelObsType.getVersion());
             delObsRequest.setService(xbDelObsType.getService());
-            delObsRequest.setObservationIdentifier(xbDelObsType.getObservation());
+            delObsRequest.setObservableProperty(xbDelObsType.getObservableProperty());
+            delObsRequest.setProcedureIdentifier(xbDelObsType.getProcedureIdentifier());
+            if(xbDelObsType.getResultTime() != null) {
+            	delObsRequest.setResultTime(new DateTime(xbDelObsType.getResultTime()));
+            }
         } else {
             throw new NoApplicableCodeException()
                     .withMessage("Received XML document is not valid. Set log level to debug to get more details");

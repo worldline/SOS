@@ -30,6 +30,7 @@ package org.n52.sos.ds.hibernate.dao;
 
 import static org.hibernate.criterion.Restrictions.eq;
 
+import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;

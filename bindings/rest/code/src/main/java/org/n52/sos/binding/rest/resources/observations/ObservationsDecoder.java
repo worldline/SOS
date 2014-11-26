@@ -130,7 +130,7 @@ public class ObservationsDecoder extends ResourceDecoder {
         
         deleteObservationRequest.setService(bindingConstants.getSosService());
         deleteObservationRequest.setVersion(bindingConstants.getSosVersion());
-        deleteObservationRequest.setObservationIdentifier(pathPayload);
+  //      deleteObservationRequest.setObservationIdentifier(pathPayload);
         
         return new ObservationsDeleteRequest(deleteObservationRequest);
     }

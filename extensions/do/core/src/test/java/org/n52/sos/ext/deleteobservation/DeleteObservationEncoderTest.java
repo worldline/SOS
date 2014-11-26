@@ -82,7 +82,7 @@ public class DeleteObservationEncoderTest {
      */
     private static DeleteObservationResponse correctCoreResponse;
 
-    @BeforeClass
+   /* @BeforeClass
     public static void initInstance() {
         instance = new DeleteObservationEncoder();
         incorrectCoreResponseMissingAttributes = new DeleteObservationResponse();
@@ -191,6 +191,6 @@ public class DeleteObservationEncoderTest {
         assertThat(
                 schemLoc.getSchemaFileUrl(),
                 is("https://raw.githubusercontent.com/52North/SOS/master/extensions/do/xml/src/main/xsd/sosdo.xsd"));
-    }
+    }*/
 
 }

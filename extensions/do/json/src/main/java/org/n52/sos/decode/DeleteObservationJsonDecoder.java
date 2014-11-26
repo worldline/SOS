@@ -28,6 +28,7 @@
  */
 package org.n52.sos.decode;
 
+import org.joda.time.DateTime;
 import org.n52.sos.coding.json.JSONConstants;
 import org.n52.sos.coding.json.SchemaConstants;
 import org.n52.sos.decode.json.AbstractSosRequestDecoder;
@@ -62,8 +63,14 @@ public class DeleteObservationJsonDecoder
     protected DeleteObservationRequest decodeRequest(JsonNode node)
             throws OwsExceptionReport {
         DeleteObservationRequest req = new DeleteObservationRequest();
-        req.setObservationIdentifier(node.path(JSONConstants.OBSERVATION)
+
+        DateTime date = new DateTime(node.path(JSONConstants.RESULT_TIME).textValue());
+        req.setResultTime(date);
+        req.setObservableProperty(node.path(JSONConstants.OBSERVABLE_PROPERTY)
                 .textValue());
+        req.setProcedureIdentifier(node.path(JSONConstants.PROCEDURE_IDENTIFIER)
+                .textValue());
+
         return req;
     }
 }

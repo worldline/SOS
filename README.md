@@ -4,6 +4,49 @@ README file for the 52°North Sensor Observation Service (SOS) version 4.1
 
 This is the repository of the [52°North Sensor Observation Service (SOS)][1].
 
+## Changes done by Worldline
+
+The request deleteObservation has been modified to delete permanently the observation in the database instead of set the flag "deleted" to true : 
+* change the request format. You need to provide :
+	- procedure identifier
+	- observable property identifier
+	- result time 
+	You do not need the observation identifier. You can find the request examples in webapp folder. 
+	Formats KVP, JSON, SOAP and POX are concerned by the changes. 
+	
+	Example KVP :
+		http://localhost:8080/service?service=SOS&version=2.0.0&request=DeleteObservation&procedureIdentifier=http://www.52north.org/test/procedure/9&observableProperty=http://www.52north.org/test/observableProperty/9_3&resultTime=2012-11-19T13:44:00%2b01:00
+	
+	Example SOAP : 
+		<?xml version="1.0" encoding="UTF-8"?>
+		<env:Envelope
+			xmlns:env="http://www.w3.org/2003/05/soap-envelope"
+			xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.w3.org/2003/05/soap-envelope http://www.w3.org/2003/05/soap-envelope/soap-envelope.xsd">
+			<env:Body>
+				<sosdo:DeleteObservation
+					xmlns:sosdo="http://www.opengis.net/sosdo/1.0" version="2.0.0" service="SOS">
+					<sosdo:procedureIdentifier>http://www.52north.org/test/procedure/9</sosdo:procedureIdentifier>
+					<sosdo:observableProperty>http://www.52north.org/test/observableProperty/9_3</sosdo:observableProperty>
+					<sosdo:resultTime>2012-11-19T13:30:00+01:00</sosdo:resultTime>
+				</sosdo:DeleteObservation>
+			</env:Body>
+		</env:Envelope>
+	
+	Example POX :
+		<?xml version="1.0" encoding="UTF-8"?>
+		<sosdo:DeleteObservation
+			xmlns:sosdo="http://www.opengis.net/sosdo/1.0" version="2.0.0" service="SOS">
+			<sosdo:procedureIdentifier>http://www.52north.org/test/procedure/9</sosdo:procedureIdentifier>
+			<sosdo:observableProperty>http://www.52north.org/test/observableProperty/9_3</sosdo:observableProperty>
+			<sosdo:resultTime>2012-11-19T13:30:00+01:00</sosdo:resultTime>
+		</sosdo:DeleteObservation>
+	
+	Example JSON : none
+	
+* it implies : 
+	- series suppression if the observation was the last remaining or series update else
+	- the other things done by the original 52°North Sensor Observation Service delete request stay unchanged
+
 The 52°North SOS is a reference implementation of the
 [OGC Sensor Observation Service specification (version 2.0)][2]. It was
 implemented during the [OGC Web Services Testbed,  Phase 9 (OWS-9)][3] and

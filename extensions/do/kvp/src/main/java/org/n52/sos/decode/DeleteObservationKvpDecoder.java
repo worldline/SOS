@@ -28,14 +28,16 @@
  */
 package org.n52.sos.decode;
 
-import static org.n52.sos.ext.deleteobservation.DeleteObservationConstants.PARAMETER_NAME;
+import static org.n52.sos.ext.deleteobservation.DeleteObservationConstants.*;
 import static org.n52.sos.util.KvpHelper.checkParameterSingleValue;
 
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;
 
+import org.joda.time.DateTime;
 import org.n52.sos.decode.kvp.AbstractKvpDecoder;
+import org.n52.sos.exception.ows.MissingParameterValueException;
 import org.n52.sos.exception.ows.concrete.MissingRequestParameterException;
 import org.n52.sos.exception.ows.concrete.MissingServiceParameterException;
 import org.n52.sos.exception.ows.concrete.MissingVersionParameterException;
@@ -73,7 +75,8 @@ public class DeleteObservationKvpDecoder extends AbstractKvpDecoder {
         }
         DeleteObservationRequest deleteObservationRequest = new DeleteObservationRequest();
         CompositeOwsException exceptions = new CompositeOwsException();
-        boolean foundRequest = false, foundService = false, foundVersion = false, foundObservation = false;
+        boolean foundRequest = false, foundService = false, foundVersion = false,
+                foundProcedure = false, foundObservable = false, foundResultTime = false;
 
         for (String parameterName : objectToDecode.keySet()) {
             String parameterValues = objectToDecode.get(parameterName);
@@ -89,10 +92,19 @@ public class DeleteObservationKvpDecoder extends AbstractKvpDecoder {
                 } else if (parameterName.equalsIgnoreCase(OWSConstants.RequestParams.request.name())) {
                     KvpHelper.checkParameterSingleValue(parameterValues, parameterName);
                     foundRequest = true;
-                } else if (parameterName.equalsIgnoreCase(PARAMETER_NAME)) {
-                    deleteObservationRequest.setObservationIdentifier(checkParameterSingleValue(parameterValues,
+                } else if (parameterName.equalsIgnoreCase(PROCEDURE_PARAM)) {
+                    deleteObservationRequest.setProcedureIdentifier(checkParameterSingleValue(parameterValues,
                             parameterName));
-                    foundObservation = true;
+                    foundProcedure = true;
+                } else if (parameterName.equalsIgnoreCase(OBSERVABLE_PARAM)) {
+                    deleteObservationRequest.setObservableProperty(checkParameterSingleValue(parameterValues,
+                            parameterName));
+                    foundObservable = true;
+                } else if (parameterName.equalsIgnoreCase(RESULT_TIME_PARAM)) {
+                    DateTime date = new DateTime(checkParameterSingleValue(parameterValues,
+                            parameterName));
+                    deleteObservationRequest.setResultTime(date);
+                    foundResultTime = true;
                 }
             } catch (OwsExceptionReport owse) {
                 exceptions.add(owse);
@@ -111,8 +123,16 @@ public class DeleteObservationKvpDecoder extends AbstractKvpDecoder {
             exceptions.add(new MissingRequestParameterException());
         }
 
-        if (!foundObservation) {
-            exceptions.add(new MissingObservationParameterException());
+        if (!foundProcedure) {
+            exceptions.add(new MissingParameterValueException(PROCEDURE_PARAM));
+        }
+
+        if (!foundObservable) {
+            exceptions.add(new MissingParameterValueException(OBSERVABLE_PARAM));
+        }
+
+        if (!foundResultTime) {
+            exceptions.add(new MissingParameterValueException(RESULT_TIME_PARAM));
         }
 
         exceptions.throwIfNotEmpty();

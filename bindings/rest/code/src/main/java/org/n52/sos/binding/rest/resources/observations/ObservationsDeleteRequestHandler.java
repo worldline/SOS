@@ -55,9 +55,9 @@ public class ObservationsDeleteRequestHandler extends RequestHandler {
             XmlObject xb_deleteObservationResponse = executeSosRequest(doReq);
             if (xb_deleteObservationResponse instanceof DeleteObservationResponseDocument) {
                 DeleteObservationResponseType xb_delObsResponse = ((DeleteObservationResponseDocument) xb_deleteObservationResponse).getDeleteObservationResponse();
-                if (xb_delObsResponse.getDeletedObservation().equalsIgnoreCase(doReq.getObservationIdentifier())) {
+               /* if (xb_delObsResponse.getDeletedObservation().equalsIgnoreCase(doReq.getObservationIdentifier())) {
                     return new ObservationsDeleteRespone(xb_delObsResponse.getDeletedObservation());
-                }
+                }*/
             }
         }
         throw logRequestTypeNotSupportedByThisHandlerAndCreateException(req,this.getClass().getName());

@@ -28,6 +28,8 @@
  */
 package org.n52.sos.exception.ows;
 
+import java.util.Map;
+
 import static org.n52.sos.util.http.HTTPStatus.BAD_REQUEST;
 
 /**
@@ -42,6 +44,16 @@ public class InvalidParameterValueException extends CodedOwsException {
 
     public InvalidParameterValueException() {
         super(OwsExceptionCode.InvalidParameterValue);
+        setStatus(BAD_REQUEST);
+    }
+
+    public InvalidParameterValueException(final Map<String, String> parameters) {
+        super(OwsExceptionCode.InvalidParameterValue);
+        String message = "The values for those parameters are potentially invalid :";
+        for(Map.Entry<String, String> parameter : parameters.entrySet()) {
+            message += "[" + parameter.getKey() + "-" + parameter.getValue() + "]";
+        }
+        withMessage("%s", message);
         setStatus(BAD_REQUEST);
     }
 

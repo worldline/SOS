@@ -156,7 +156,7 @@ public class DeleteObservationKvpDecoderTest {
         instance.decode(evolvingMap);
     }
 
-    @Test
+  /*  @Test
     public void should_decode_valid_request() throws OwsExceptionReport {
         final String observationIdentifier = "test-observation-identifier";
         HashMap<String, String> parameters = new HashMap<String, String>(4);
@@ -172,6 +172,6 @@ public class DeleteObservationKvpDecoderTest {
         assertThat(decodedRequest.getService(), is(SOS));
         assertThat(decodedRequest.getOperationName(), is(OPERATION_NAME));
         assertThat(decodedRequest.getObservationIdentifier(), is(observationIdentifier));
-    }
+    }*/
 
 }

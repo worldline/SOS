@@ -28,6 +28,7 @@
  */
 package org.n52.sos.ext.deleteobservation;
 
+import org.joda.time.DateTime;
 import org.n52.sos.request.AbstractServiceRequest;
 
 /**
@@ -37,8 +38,11 @@ import org.n52.sos.request.AbstractServiceRequest;
  * @since 1.0.0
  */
 public class DeleteObservationRequest extends AbstractServiceRequest {
+    private String procedureIdentifier;
 
-    private String observationIdentifier;
+	private String observableProperty;
+    
+    private DateTime resultTime;
 
     private final String operationName = DeleteObservationConstants.Operations.DeleteObservation.name();
 
@@ -47,19 +51,35 @@ public class DeleteObservationRequest extends AbstractServiceRequest {
         return operationName;
     }
 
-    public String getObservationIdentifier() {
-        return observationIdentifier;
-    }
+    public String getProcedureIdentifier() {
+  		return procedureIdentifier;
+  	}
 
-    public void setObservationIdentifier(String observationIdentifier) {
-        this.observationIdentifier = observationIdentifier;
-    }
+  	public void setProcedureIdentifier(String procedureIdentifier) {
+  		this.procedureIdentifier = procedureIdentifier;
+  	}
+
+  	public String getObservableProperty() {
+  		return observableProperty;
+  	}
+
+  	public void setObservableProperty(String observableProperty) {
+  		this.observableProperty = observableProperty;
+  	}
+
+  	public DateTime getResultTime() {
+  		return resultTime;
+  	}
+
+  	public void setResultTime(DateTime resultTime) {
+  		this.resultTime = resultTime;
+  	}
 
     @Override
     public String toString() {
         return String.format(
-                "DeleteObservationRequest [service=%s, version=%s, observationIdentifier=%s, operationName=%s]",
-                getService(), getVersion(), observationIdentifier, operationName);
+                "DeleteObservationRequest [service=%s, version=%s, procedureIdentifier=%s, observableProperty=%s, resultTime=%s, operationName=%s]",
+                getService(), getVersion(), procedureIdentifier, observableProperty, resultTime.toString(), operationName);
     }
-
 }
+

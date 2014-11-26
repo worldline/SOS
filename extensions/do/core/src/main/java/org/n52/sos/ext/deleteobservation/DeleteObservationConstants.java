@@ -47,6 +47,12 @@ public interface DeleteObservationConstants {
 
     String PARAMETER_NAME = "observation";
 
+    String PROCEDURE_PARAM = "procedureIdentifier";
+
+    String OBSERVABLE_PARAM = "observableProperty";
+
+    String RESULT_TIME_PARAM = "resultTime";
+
     enum Operations {
         DeleteObservation;
 

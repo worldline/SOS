@@ -81,11 +81,11 @@ public class DeleteObservationRequestOperator
         } catch (OwsExceptionReport owse) {
             exceptions.add(owse);
         }
-        try {
+        /*try {
             checkObservationID(sosRequest.getObservationIdentifier(), DeleteObservationConstants.PARAMETER_NAME);
         } catch (OwsExceptionReport owse) {
             exceptions.add(owse);
-        }
+        }*/
         exceptions.throwIfNotEmpty();
     }
 

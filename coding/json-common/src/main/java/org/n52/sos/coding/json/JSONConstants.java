@@ -258,6 +258,8 @@ public interface JSONConstants {
 
     String PROCEDURE_DESCRIPTION_FORMAT = "procedureDescriptionFormat";
 
+    String PROCEDURE_IDENTIFIER = "procedureIdentifier";
+
     String PROFILES = "profiles";
 
     String PROPERTIES = "properties";

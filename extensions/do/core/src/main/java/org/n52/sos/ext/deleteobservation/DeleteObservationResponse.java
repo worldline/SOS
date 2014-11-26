@@ -28,6 +28,7 @@
  */
 package org.n52.sos.ext.deleteobservation;
 
+import org.joda.time.DateTime;
 import org.n52.sos.ogc.om.OmObservation;
 import org.n52.sos.response.AbstractServiceResponse;
 
@@ -40,15 +41,9 @@ import org.n52.sos.response.AbstractServiceResponse;
 public class DeleteObservationResponse extends AbstractServiceResponse {
     private OmObservation deletedObservation;
 
-    private String observationIdentifier;
-
-    public void setObservationId(String observationIdentifier) {
-        this.observationIdentifier = observationIdentifier;
-    }
-
-    public String getObservationId() {
-        return observationIdentifier;
-    }
+    private String procedureIdentifier;
+    private String observableProperty;
+    private DateTime resultTime;
 
     public void setDeletedObservation(OmObservation deletedObservation) {
         this.deletedObservation = deletedObservation;
@@ -61,5 +56,29 @@ public class DeleteObservationResponse extends AbstractServiceResponse {
     @Override
     public String getOperationName() {
         return DeleteObservationConstants.Operations.DeleteObservation.name();
+    }
+
+    public String getProcedureIdentifier() {
+        return procedureIdentifier;
+    }
+
+    public void setProcedureIdentifier(String procedureIdentifier) {
+        this.procedureIdentifier = procedureIdentifier;
+    }
+
+    public String getObservableProperty() {
+        return observableProperty;
+    }
+
+    public void setObservableProperty(String observableProperty) {
+        this.observableProperty = observableProperty;
+    }
+
+    public DateTime getResultTime() {
+        return resultTime;
+    }
+
+    public void setResultTime(DateTime resultTime) {
+        this.resultTime = resultTime;
     }
 }
